@@ -26,6 +26,7 @@ public class Car {
 
     public void setX(int x) {
         this.x = x;
+        updateRectangle();
     }
 
     public int getY() {
@@ -34,6 +35,7 @@ public class Car {
 
     public void setY(int y) {
         this.y = y;
+        updateRectangle();
     }
 
     public Rectangle getRect() {
@@ -54,18 +56,22 @@ public class Car {
 
     public void moveUp() {
         this.y -= 10;
-        rect.setBounds(x, y, image.getWidth(), image.getHeight());
+        updateRectangle();
     }
     public void moveDown() {
         this.y += 10;
-        rect.setBounds(x, y, image.getWidth(), image.getHeight());
+        updateRectangle();
     }
     public void moveRight() {
         this.x += 10;
-        rect.setBounds(x, y, image.getWidth(), image.getHeight());
+        updateRectangle();
     }
     public void moveLeft() {
         this.x -= 10;
+        updateRectangle();
+    }
+
+    public void updateRectangle() {
         rect.setBounds(x, y, image.getWidth(), image.getHeight());
     }
 }

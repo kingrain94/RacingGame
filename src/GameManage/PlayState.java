@@ -1,6 +1,7 @@
 package GameManage;
 
 import GameObject.Car;
+import GameObject.Map;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -11,24 +12,26 @@ import java.net.*;
 public class PlayState extends BasicGameState {
 
     private int id;
-    private Image map;
 
-    private int mapY;
+    private Map map;
+
     private Car myCar;
     private Car rivalCar;
-    private DatagramSocket sendSocket;
     String pos = "Initial";
 
-    private int sendPort = 10001;
-    private int receivePort = 10000;
+    private DatagramSocket sendSocket;
+    private DatagramSocket receiveSocket;
+
+    private int sendPort = 10000;
+    private int receivePort = 10001;
 
     public PlayState(int id) {
         super();
         this.id = id;
 
-        mapY = 0;
         try {
             sendSocket = new DatagramSocket();
+            receiveSocket = new DatagramSocket(receivePort);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -37,13 +40,21 @@ public class PlayState extends BasicGameState {
             @Override
             public void run() {
                 try {
-                    DatagramSocket socket = new DatagramSocket(receivePort);
-
                     while (true) {
                         byte[] bytes = new byte[256];
                         DatagramPacket packet = new DatagramPacket(bytes, bytes.length);
-                        socket.receive(packet);
+                        receiveSocket.receive(packet);
                         pos = new String(packet.getData());
+
+                        if (pos.contains(",")) {
+                            int rivalX = Integer.parseInt(pos.substring(0, pos.indexOf(",")).trim());
+                            int rivalY = Integer.parseInt(pos.substring(pos.indexOf(",") + 1).trim());
+
+                            if (rivalCar != null) {
+                                rivalCar.setX(rivalX);
+                                rivalCar.setY(rivalY);
+                            }
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -59,23 +70,23 @@ public class PlayState extends BasicGameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        map = new Image("res/track.png");
+        map = new Map("res/track.png");
 
-        if (sendPort == 10001) {
+        if (sendPort == 10000) {
             myCar = new Car(300, 300, "res/car1.png");
             rivalCar = new Car(400, 300, "res/car2.png");
         } else {
             myCar = new Car(400, 300, "res/car1.png");
             rivalCar = new Car(300, 300, "res/car2.png");
         }
+
+
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-        graphics.drawImage(map, 0, mapY - 600);
-        graphics.drawImage(map, 0, mapY);
-
-        graphics.drawString(pos, 100, 100);
+        graphics.drawImage(map.getImage(), 0, map.getY() - 600);
+        graphics.drawImage(map.getImage(), 0, map.getY());
 
         graphics.drawImage(myCar.getImage(), myCar.getX(), myCar.getY());
         graphics.draw(myCar.getRect());
@@ -88,9 +99,9 @@ public class PlayState extends BasicGameState {
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         Input input = gameContainer.getInput();
 
-        mapY += 5;
-        if (mapY > 600) {
-            mapY = 0;
+        map.setY(map.getY() + 5);
+        if (map.getY() > 600) {
+            map.setY(0);
         }
 
         if (input.isKeyDown(Input.KEY_UP)) {
@@ -113,11 +124,6 @@ public class PlayState extends BasicGameState {
             sendSocket.send(packet);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        if (pos.contains(",")) {
-            rivalCar.setX(Integer.parseInt(pos.substring(0, pos.indexOf(","))));
-            rivalCar.setY(Integer.parseInt(pos.substring(pos.indexOf(","))));
         }
     }
 }
