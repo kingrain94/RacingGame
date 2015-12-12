@@ -1,5 +1,6 @@
 package GameManage;
 
+import Helper.Constants;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -18,7 +19,8 @@ public class MainGame extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer appGameContainer = new AppGameContainer(new MainGame("Sample Racing"), 800, 600, false);
+        AppGameContainer appGameContainer = new AppGameContainer(new MainGame("Sample Racing"), Constants.WINDOW_WIDTH,
+                Constants.WINDOW_HEIGHT, false);
         appGameContainer.setShowFPS(true);
         appGameContainer.setTargetFrameRate(60);
         appGameContainer.setAlwaysRender(true);
