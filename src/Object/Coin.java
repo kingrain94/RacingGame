@@ -1,4 +1,4 @@
-package GameObject;
+package Object;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -7,19 +7,21 @@ import org.newdawn.slick.geom.Circle;
 /**
  * Created by Nguyen on 12/12/2015.
  */
-public class Bomb {
+public class Coin {
     private int x;
     private int y;
     private int r;
     private Image image;
     private Circle circle;
+    private boolean visible;
 
-    public Bomb(int x, int y, String imagePath) throws SlickException {
+    public Coin(int x, int y, String imagePath) throws SlickException {
         this.x = x;
         this.y = y;
         this.image = new Image(imagePath);
         this.r = image.getWidth() / 2;
         this.circle = new Circle(x, y, r);
+        this.visible = true;
     }
 
     public int getX() {
@@ -63,6 +65,14 @@ public class Bomb {
 
     public void setCircle(Circle circle) {
         this.circle = circle;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public void updateCirCle() {

@@ -1,6 +1,6 @@
-package GameObject;
+package Object;
 
-import Helper.Constants;
+import Helper.Const;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -56,26 +56,26 @@ public class Car {
     }
 
     public void moveUp() {
-        if (this.y - 10 >= 0) {
-            this.y -= 10;
+        if (this.y - Const.MOVE_DY >= 0) {
+            this.y -= Const.MOVE_DY;
             updateRectangle();
         }
     }
     public void moveDown() {
-        if (this.y + 10 <= Constants.WINDOW_HEIGHT - image.getHeight()) {
-            this.y += 10;
+        if (this.y + Const.MOVE_DY <= Const.WINDOW_HEIGHT - image.getHeight()) {
+            this.y += Const.MOVE_DY;
             updateRectangle();
         }
     }
     public void moveRight() {
-        if (this.x + 10 <= Constants.WINDOW_WIDTH - image.getWidth()) {
-            this.x += 10;
+        if (this.x + Const.MOVE_DX <= Const.WINDOW_WIDTH - image.getWidth()) {
+            this.x += Const.MOVE_DX;
             updateRectangle();
         }
     }
     public void moveLeft() {
-        if (this.x - 10 >= 0) {
-            this.x -= 10;
+        if (this.x - Const.MOVE_DX >= 0) {
+            this.x -= Const.MOVE_DX;
             updateRectangle();
         }
     }

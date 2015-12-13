@@ -1,4 +1,4 @@
-package GameObject;
+package Object;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -7,14 +7,14 @@ import org.newdawn.slick.geom.Circle;
 /**
  * Created by Nguyen on 12/12/2015.
  */
-public class Coin {
+public class Bomb {
     private int x;
     private int y;
     private int r;
     private Image image;
     private Circle circle;
 
-    public Coin(int x, int y, String imagePath) throws SlickException {
+    public Bomb(int x, int y, String imagePath) throws SlickException {
         this.x = x;
         this.y = y;
         this.image = new Image(imagePath);
@@ -28,6 +28,7 @@ public class Coin {
 
     public void setX(int x) {
         this.x = x;
+        updateCirCle();
     }
 
     public int getY() {
@@ -36,6 +37,7 @@ public class Coin {
 
     public void setY(int y) {
         this.y = y;
+        updateCirCle();
     }
 
     public int getR() {
@@ -44,6 +46,7 @@ public class Coin {
 
     public void setR(int r) {
         this.r = r;
+        updateCirCle();
     }
 
     public Image getImage() {
@@ -60,5 +63,11 @@ public class Coin {
 
     public void setCircle(Circle circle) {
         this.circle = circle;
+    }
+
+    public void updateCirCle() {
+        circle.setCenterX(this.x);
+        circle.setCenterY(this.y);
+        circle.setRadius(this.r);
     }
 }
