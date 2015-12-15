@@ -13,12 +13,14 @@ public class Car {
     private int y;
     private Rectangle rect;
     private Image image;
+    private boolean visible;
 
     public Car(int x, int y, String imagePath) throws SlickException {
         this.x = x;
         this.y = y;
         this.image = new Image(imagePath);
         this.rect = new Rectangle(x, y, image.getWidth(), image.getHeight());
+        this.visible = true;
     }
 
     public int getX() {
@@ -37,6 +39,14 @@ public class Car {
     public void setY(int y) {
         this.y = y;
         updateRectangle();
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public Rectangle getRect() {
